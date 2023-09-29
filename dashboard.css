@@ -1,0 +1,28 @@
+h1{
+    color: rgb(239, 132, 37);
+}
+.wordweblogo{
+   text-align: center;
+}
+#subtitle{
+    text-align: left;
+    background-color: rgb(44, 52, 66);
+    color: white;
+}
+.search-result{
+    background-color: rgb(202, 212, 216);
+    margin: 1% ;
+    padding: 3% ;
+}
+
+.search-box{
+    border-radius: 50px 50px 50px 50px;
+    text-align: center;
+    width: 300px;
+    height: 30px;
+}
+.word-of-the-day{
+    background-color: rgb(202, 212, 216);
+    margin: 1% ;
+    padding: 3% ;
+}

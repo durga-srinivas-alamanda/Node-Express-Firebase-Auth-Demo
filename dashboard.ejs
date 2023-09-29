@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>WordWeb</title>
+    
+   
+</head>
+<body>
+    <header>
+       <div class="wordweblogo"><img src="wordweb_logo.png" alt="word-web-logo" id= "wordweb"></div>
+        
+    </header>
+    <div class="container">
+        <!-- Search Section -->
+        <section class="search-section">
+            <br><br><br>
+            <h2>Search for a Word</h2>
+            <input type="text" id="wordInput" placeholder="Enter a word" class="search-box">
+            <button onclick="searchWord()" class="search-button">Search</button>
+            <div class="search-result">
+                <h3>Word:</h3>
+                <p id="searchedWord"></p>
+                <h3>Meaning:</h3>
+                <p id="wordMeaning"></p>
+                <h3>Synonyms:</h3>
+                <p id="wordSynonyms"></p>
+             
+            </div>
+        </section>
+
+        <!-- Word of the Day Section -->
+        <section class="word-of-the-day">
+            <h2>Word of the Day</h2>
+            <div class="daily-word">
+                <h3>Word:</h3>
+                <p id="dailyWord"></p>
+                <h3>Meaning:</h3>
+                <p id="dailyWordMeaning"></p>
+                <h3>Synonyms:</h3>
+                <p id="dailyWordSynonyms"></p>
+            </div>
+        </section>
+    </div>
+   
+
+
+    <script>
+        // Function to fetch data from the API and update search results
+        // Function to fetch data from the API and update search results
+// Function to fetch data from the API and update search results
+async function searchWord() {
+    const apiKey = 'ace09606-13e8-4d11-8230-31fa4d693dd2';
+    const wordInput = document.getElementById('wordInput').value.trim();
+    const apiUrl = `https://dictionaryapi.com/api/v3/references/ithesaurus/json/${wordInput}?key=${apiKey}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const searchedWord = document.getElementById('searchedWord');
+        const wordMeaning = document.getElementById('wordMeaning');
+        const wordSynonyms = document.getElementById('wordSynonyms');
+
+        // Clear previous results
+        searchedWord.textContent = '';
+        wordMeaning.textContent = '';
+        wordSynonyms.textContent = '';
+
+        // Check if the response is empty or contains valid word data
+        if (data && data.length > 0 && data[0].meta && data[0].meta.id) {
+            const firstResult = data[0];
+            searchedWord.textContent = firstResult.meta.id;
+            wordMeaning.textContent = firstResult.shortdef.join(', ');
+            wordSynonyms.textContent = firstResult.meta.syns.flat().join(', ');
+        } else {
+            // Word not found in the API response
+            searchedWord.textContent = 'Word not found';
+        }
+    } catch (error) {
+        console.error('Error fetching data: ', error);
+    }
+}
+
+
+
+
+        // Function to fetch and display the Word of the Day
+        // Function to fetch and display the Word of the Day
+        let previousWord = ''; // Initialize a variable to store the previous word
+
+// Function to fetch and display the Word of the Day
+async function loadWordOfTheDay() {
+    const apiKey = 'ace09606-13e8-4d11-8230-31fa4d693dd2';
+    const apiUrl = 'https://dictionaryapi.com/api/v3/references/ithesaurus/json/exam?key=' + apiKey;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const dailyWord = document.getElementById('dailyWord');
+        const dailyWordMeaning = document.getElementById('dailyWordMeaning');
+        const dailyWordSynonyms = document.getElementById('dailyWordSynonyms');
+
+        if (data.length > 0) {
+            const randomIndex = Math.floor(Math.random() * data.length);
+            const word = data[randomIndex];
+
+            dailyWord.textContent = word.meta.id;
+            dailyWordMeaning.textContent = word.shortdef.join(', ');
+            dailyWordSynonyms.textContent = word.meta.syns.flat().join(', ');
+
+            // Check if the word has changed
+            if (word.meta.id !== previousWord) {
+                console.log('Word changed to: ' + word.meta.id);
+                previousWord = word.meta.id; // Update the previous word
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching data: ', error);
+    }
+}
+
+// Load the Word of the Day on page load
+loadWordOfTheDay();
+setInterval(loadWordOfTheDay, 60000);
+    </script>
+</body>
+<footer> <h3 id ="subtitle"> Your Pathway to Word Mastery – Elevate Your Vocabulary, Word by Word
+    <br><small >~A.D.Srinivas</small></h3> </footer>
+</html>
